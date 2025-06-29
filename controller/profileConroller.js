@@ -1,7 +1,7 @@
 const Profile = require("../models/profile")
 const User = require("../models/user")
 const { uploadImageToCLoudinary } = require("../utils/imageUploader")
-const Course = require('../models/Course')
+const Course = require('../models/course')
 const CourseProgress = require('../models/CourseProgress')
 const {convertSecondsToDuration} = require ('../utils/secToDuration')
 

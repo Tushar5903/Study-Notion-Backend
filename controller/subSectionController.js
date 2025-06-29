@@ -1,6 +1,6 @@
-const Section = require("../models/section");
-const subSection = require("../models/subSection");
-const SubSection = require("../models/subSection");
+const Section = require("../models/Section");
+const subSection = require("../models/SubSection");
+const SubSection = require("../models/SubSection");
 const { uploadImageToCLoudinary } = require("../utils/imageUploader")
 require("dotenv").config();
 
