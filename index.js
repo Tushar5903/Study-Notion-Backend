@@ -33,12 +33,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "studynotion-by-tushar-i9z098muu-tushar-kumars-projects-f26e856d.vercel.app", // <-- Update to your actual deployed frontend
+];
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true, 
+    origin: function (origin, callback) {
+      
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"], 
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
