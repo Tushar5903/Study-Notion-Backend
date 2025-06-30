@@ -32,7 +32,7 @@ exports.auth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return res.status(401).json({
+    return res.status(500).json({
       success: false,
       message: "Something went wrong when validating the token",
     });
