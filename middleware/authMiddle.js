@@ -1,6 +1,6 @@
 // Importing required modules
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/user");
 // Configuring dotenv to load environment variables from .env file
 require("dotenv").config();
 
