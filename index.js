@@ -36,7 +36,9 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:3000",
-    // credentials: true,
+    credentials: false, // Since you're using Authorization header, not cookies
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"], // Important
   })
 );
 
