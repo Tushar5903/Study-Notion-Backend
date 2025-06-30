@@ -17,12 +17,12 @@ exports.auth = async (req, res, next) => {
         }
 
         try {
-           
+            console.log("JWT_SECRET in Render:", process.env.JWT_SECRET)           
             const decode = jwt.verify(token, process.env.JWT_SECRET);
             console.log(decode);
             
             req.user = decode;
-             next();
+            next();
         } catch (error) {
             // If JWT verification fails, return 401 Unauthorized response
             console.log(error.message)
