@@ -7,7 +7,7 @@ const {profileUpdate,profileDelete,getAllUserDetails,updateDisplayPicture,getEnr
 
 router.put("/ProfileUpdate" , auth , profileUpdate)
 router.delete("/ProfileDelete", auth ,profileDelete)
-router.get("/getAllUserDetails", getAllUserDetails)
+router.get("/getAllUserDetails", auth ,getAllUserDetails)
 
 
 router.put("/updateDisplayPicture" , auth,updateDisplayPicture)
