@@ -1,16 +1,25 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const User = require("../models/user");
-
 exports.auth = async (req, res, next) => {
   try {
-    const token =
-      req.cookies.token ||
-      req.body.token ||
-      (req.headers.authorization &&
+    console.log("Auth Middleware Triggered");
+    console.log("Cookies:", req.cookies);
+    console.log("Authorization Header:", req.headers.authorization);
+    console.log("Body token:", req.body.token);
+
+    let token = null;
+
+    if (req.cookies?.token) {
+      token = req.cookies.token;
+    } else if (req.body?.token) {
+      token = req.body.token;
+    } else if (
+      req.headers.authorization &&
+      typeof req.headers.authorization === "string" &&
       req.headers.authorization.startsWith("Bearer ")
-        ? req.headers.authorization.split(" ")[1]
-        : null);
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    console.log("Extracted Token:", token);
 
     if (!token) {
       return res.status(401).json({
@@ -32,12 +41,14 @@ exports.auth = async (req, res, next) => {
 
     next();
   } catch (error) {
+    console.error("Auth Middleware Error:", error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong when validating the token",
     });
   }
 };
+
 
 
 exports.isStudent = async(req,res,next)=>{
