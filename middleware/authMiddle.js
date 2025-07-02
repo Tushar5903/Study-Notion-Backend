@@ -2,45 +2,48 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 require("dotenv").config();
 
-
 exports.auth = async (req, res, next) => {
     try {
+        const cookieToken = req.cookies.token;
+        const bodyToken = req.body.token;
+        const headerTokenRaw = req.header("Authorization");
+        const headerToken = headerTokenRaw?.replace("Bearer ", "");
 
-        const token =
-            req.cookies.token ||
-            req.body.token ||
-            req.header("Authorization")?.replace("Bearer ", "");
+        console.log("🔍 Token from cookie:", cookieToken);
+        console.log("🔍 Token from body:", bodyToken);
+        console.log("🔍 Token from Authorization header:", headerTokenRaw);
+        console.log("✅ Final token used:", cookieToken || bodyToken || headerToken);
 
+        const token = cookieToken || bodyToken || headerToken;
 
-        if (!token) {
+        if (!token || token.trim() === "") {
             return res.status(401).json({ success: false, message: "Token Missing" });
         }
 
         try {
-            console.log("JWT_SECRET in Render:", process.env.JWT_SECRET)           
+            console.log("🔐 JWT_SECRET in Render:", process.env.JWT_SECRET);
             const decode = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decode);
-            
+            console.log("✅ Decoded JWT payload:", decode);
+
             req.user = decode;
             next();
         } catch (error) {
-            // If JWT verification fails, return 401 Unauthorized response
-            console.log(error.message)
-            return res
-                .status(401)
-                .json({ success: false, message: "token is invalid" });
+            console.log("❌ JWT verification failed:", error.message);
+            return res.status(401).json({
+                success: false,
+                message: "Token is invalid or malformed",
+            });
         }
 
-        // If JWT is valid, move on to the next middleware or request handler
-       
     } catch (error) {
-        // If there is an error during the authentication process, return 401 Unauthorized response
         return res.status(401).json({
             success: false,
-            message: "Something Went Wrong While Validating the Token",
+            message: "Something went wrong while validating the token",
         });
     }
 };
+
+
 exports.isStudent = async (req, res, next) => {
     try {
         const userDetails = await User.findOne({ email: req.user.email });
