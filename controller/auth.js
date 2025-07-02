@@ -192,6 +192,8 @@ exports.login = async (req, res) => {
         }
 
         // password verification and token generation
+        console.log("Incoming token:", token);
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
         if (await bcrypt.compare(password, user.password)) {
 
