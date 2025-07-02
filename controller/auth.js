@@ -121,7 +121,7 @@ exports.signup = async (req, res) => {
             });
         }
 
-        
+
 
         // Hashing Password
 
@@ -145,7 +145,7 @@ exports.signup = async (req, res) => {
             lastName,
             email,
             password: hashPassword,
-            accountType:accountType,
+            accountType: accountType,
             additionalDetails: profileDetails._id,
             image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
         })
@@ -192,8 +192,7 @@ exports.login = async (req, res) => {
         }
 
         // password verification and token generation
-        console.log("Incoming token:", token);
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
 
         if (await bcrypt.compare(password, user.password)) {
 
@@ -209,6 +208,9 @@ console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
             user.token = token;
             user.password = undefined;
+
+            console.log("Incoming token:", token);
+            console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
             const option = {
                 expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
