@@ -19,7 +19,7 @@ exports.subSectionCreation = async (req, res) => {
 
         const courseVideo = await uploadImageToCLoudinary(videoUrl, process.env.FOLDER_NAME);
 
-        const subSectionDetails = await SubSection.create({
+        const subSectionDetails = await subSection.create({
             title: title,
             description: description,
             videoUrl: courseVideo.secure_url,
@@ -52,7 +52,7 @@ exports.subSectionCreation = async (req, res) => {
 exports.updatingSubSection = async (req, res) => {
     try {
     const { sectionId, subSectionId, title, description } = req.body
-    const subSection = await SubSection.findById(subSectionId)
+    const subSection = await subSection.findById(subSectionId)
 
     if (!subSection) {
       return res.status(404).json({
@@ -70,7 +70,7 @@ exports.updatingSubSection = async (req, res) => {
     }
     if (req.files && req.files.video !== undefined) {
       const video = req.files.video
-      const uploadDetails = await uploadImageToCloudinary(
+      const uploadDetails = await uploadImageToCLoudinary(
         video,
         process.env.FOLDER_NAME
       )
@@ -112,7 +112,7 @@ exports.deleteSubSection = async (req, res) => {
         },
       }
     )
-    const subSection = await SubSection.findByIdAndDelete({ _id: subSectionId })
+    const subSection = await subSection.findByIdAndDelete({ _id: subSectionId })
 
     if (!subSection) {
       return res
