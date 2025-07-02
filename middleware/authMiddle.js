@@ -12,9 +12,9 @@ exports.auth = async (req, res, next) => {
         console.log("🔍 Token from cookie:", cookieToken);
         console.log("🔍 Token from body:", bodyToken);
         console.log("🔍 Token from Authorization header:", headerTokenRaw);
-        console.log("✅ Final token used:", cookieToken || bodyToken || headerToken);
+        console.log("✅ Final token used:", headerToken || cookieToken || bodyToken);
 
-        const token = cookieToken || bodyToken || headerToken;
+        const token = headerToken || cookieToken || bodyToken;
 
         if (!token || token.trim() === "") {
             return res.status(401).json({ success: false, message: "Token Missing" });
