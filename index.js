@@ -35,7 +35,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "studynotion-by-tushar-i9z098muu-tushar-kumars-projects-f26e856d.vercel.app", // <-- Update to your actual deployed frontend
+  "https://studynotion-by-tushar-i9z098muu-tushar-kumars-projects-f26e856d.vercel.app", // <-- Update to your actual deployed frontend
 ];
 
 app.use(
