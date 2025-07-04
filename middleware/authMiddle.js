@@ -9,10 +9,10 @@ exports.auth = async (req, res, next) => {
         const headerTokenRaw = req.header("Authorization");
         const headerToken = headerTokenRaw?.replace("Bearer ", "");
 
-        console.log("🔍 Token from cookie:", cookieToken);
-        console.log("🔍 Token from body:", bodyToken);
-        console.log("🔍 Token from Authorization header:", headerTokenRaw);
-        console.log("✅ Final token used:", headerToken || cookieToken || bodyToken);
+        console.log(" Token from cookie:", cookieToken);
+        console.log(" Token from body:", bodyToken);
+        console.log(" Token from Authorization header:", headerTokenRaw);
+        console.log(" Final token used:", headerToken || cookieToken || bodyToken);
 
         const token = headerToken || cookieToken || bodyToken;
 
@@ -21,14 +21,14 @@ exports.auth = async (req, res, next) => {
         }
 
         try {
-            console.log("🔐 JWT_SECRET in Render:", process.env.JWT_SECRET);
+            console.log(" JWT_SECRET in Render:", process.env.JWT_SECRET);
             const decode = jwt.verify(token, process.env.JWT_SECRET);
-            console.log("✅ Decoded JWT payload:", decode);
+            console.log(" Decoded JWT payload:", decode);
 
             req.user = decode;
             next();
         } catch (error) {
-            console.log("❌ JWT verification failed:", error.message);
+            console.log(" JWT verification failed:", error.message);
             return res.status(401).json({
                 success: false,
                 message: "Token is invalid or malformed",
