@@ -16,10 +16,10 @@ require ("dotenv").config();
 
 const PORT = process.env.PORT || 4000;
 
-// database Connection
+
 dbConnect();
 
-// middleware 
+
 
 app.use(
   fileUpload({
@@ -28,14 +28,14 @@ app.use(
   })
 );
 
-// IMPORTANT: `fileUpload` must be before these
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://studynotion-by-tushar-i9z098muu-tushar-kumars-projects-f26e856d.vercel.app", // <-- Update to your actual deployed frontend
+  "https://studynotion-by-tushar-i9z098muu-tushar-kumars-projects-f26e856d.vercel.app", 
 ];
 
 app.use(
