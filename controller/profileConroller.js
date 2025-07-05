@@ -3,7 +3,7 @@ const User = require("../models/user")
 const { uploadImageToCLoudinary } = require("../utils/imageUploader")
 const Course = require('../models/course')
 const CourseProgress = require('../models/courseProgress')
-const {convertSecondsToDuration} = require ('../utils/secToDuration')
+const { convertSecondsToDuration } = require('../utils/secToDuration')
 
 
 exports.profileUpdate = async (req, res) => {
@@ -113,10 +113,11 @@ exports.getAllUserDetails = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error)
-        return res.status(400).json({
+        console.error("Error in getAllUserDetails:", error);
+        return res.status(500).json({
             success: false,
-            message: "Something is wrong during Profile Deletion",
+            message: "Something went wrong while fetching user details",
+            error: error.message, // helpful for debugging
         });
     }
 }
