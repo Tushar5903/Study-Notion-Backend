@@ -5,34 +5,38 @@ require("dotenv").config();
 
 exports.auth = async (req, res, next) => {
     try {
+
         const token =
             req.cookies.token ||
             req.body.token ||
             req.header("Authorization")?.replace("Bearer ", "");
 
-        console.log("Auth Middleware Token Received:", token);
 
         if (!token) {
-            return res.status(401).json({
-                success: false,
-                message: "Token is missing",
-            });
+            return res.status(401).json({ success: false, message: "Token Missing" });
         }
 
         try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = decoded;
-            next();
-        } catch (err) {
-            return res.status(401).json({
-                success: false,
-                message: "Token is invalid",
-            });
+
+            const decode = jwt.verify(token, process.env.JWT_SECRET);
+            console.log(decode);
+
+            req.user = decode;
+        } catch (error) {
+
+            console.log(error.message)
+            return res
+                .status(401)
+                .json({ success: false, message: "token is invalid" });
         }
+
+
+        next();
     } catch (error) {
-        return res.status(500).json({
+
+        return res.status(401).json({
             success: false,
-            message: "Something went wrong while verifying token",
+            message: "Something Went Wrong While Validating the Token",
         });
     }
 };
