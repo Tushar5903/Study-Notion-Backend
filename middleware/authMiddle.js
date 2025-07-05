@@ -2,37 +2,39 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 require("dotenv").config();
 
-    
+
 exports.auth = async (req, res, next) => {
-  try {
-    const token =
-      req.cookies.token ||
-      req.body.token ||
-      req.header("Authorization")?.replace("Bearer ", "");
-
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Token is missing",
-      });
-    }
-
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
-      next();
-    } catch (err) {
-      return res.status(401).json({
-        success: false,
-        message: "Token is invalid",
-      });
+        const token =
+            req.cookies.token ||
+            req.body.token ||
+            req.header("Authorization")?.replace("Bearer ", "");
+
+        console.log("Auth Middleware Token Received:", token);
+
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: "Token is missing",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
+            next();
+        } catch (err) {
+            return res.status(401).json({
+                success: false,
+                message: "Token is invalid",
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong while verifying token",
+        });
     }
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Something went wrong while verifying token",
-    });
-  }
 };
 
 
