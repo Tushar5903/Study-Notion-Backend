@@ -1,9 +1,9 @@
 const Profile = require("../models/profile")
 const User = require("../models/user")
 const { uploadImageToCLoudinary } = require("../utils/imageUploader")
-const Course = require('../models/course')
-const CourseProgress = require('../models/courseProgress')
-const { convertSecondsToDuration } = require('../utils/secToDuration')
+const Course = require('../models/Course')
+const CourseProgress = require('../models/CourseProgress')
+const {convertSecondsToDuration} = require ('../utils/secToDuration')
 
 
 exports.profileUpdate = async (req, res) => {
@@ -107,17 +107,16 @@ exports.getAllUserDetails = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "User Data Fetch Successfully",
-            data:getUserDetail,
+            getUserDetail,
         });
 
 
 
     } catch (error) {
-        console.error("Error in getAllUserDetails:", error);
-        return res.status(500).json({
+        console.log(error)
+        return res.status(400).json({
             success: false,
-            message: "Something went wrong while fetching user details",
-            error: error.message, // helpful for debugging
+            message: "Something is wrong during Profile Deletion",
         });
     }
 }

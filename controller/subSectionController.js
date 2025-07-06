@@ -1,5 +1,6 @@
 const Section = require("../models/section");
 const subSection = require("../models/subSection");
+const SubSection = require("../models/subSection");
 const { uploadImageToCLoudinary } = require("../utils/imageUploader")
 require("dotenv").config();
 
@@ -19,7 +20,7 @@ exports.subSectionCreation = async (req, res) => {
 
         const courseVideo = await uploadImageToCLoudinary(videoUrl, process.env.FOLDER_NAME);
 
-        const subSectionDetails = await subSection.create({
+        const subSectionDetails = await SubSection.create({
             title: title,
             description: description,
             videoUrl: courseVideo.secure_url,
@@ -52,7 +53,7 @@ exports.subSectionCreation = async (req, res) => {
 exports.updatingSubSection = async (req, res) => {
     try {
     const { sectionId, subSectionId, title, description } = req.body
-    const subSection = await subSection.findById(subSectionId)
+    const subSection = await SubSection.findById(subSectionId)
 
     if (!subSection) {
       return res.status(404).json({
@@ -70,7 +71,7 @@ exports.updatingSubSection = async (req, res) => {
     }
     if (req.files && req.files.video !== undefined) {
       const video = req.files.video
-      const uploadDetails = await uploadImageToCLoudinary(
+      const uploadDetails = await uploadImageToCloudinary(
         video,
         process.env.FOLDER_NAME
       )
@@ -112,7 +113,7 @@ exports.deleteSubSection = async (req, res) => {
         },
       }
     )
-    const subSection = await subSection.findByIdAndDelete({ _id: subSectionId })
+    const subSection = await SubSection.findByIdAndDelete({ _id: subSectionId })
 
     if (!subSection) {
       return res

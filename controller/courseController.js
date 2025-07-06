@@ -1,8 +1,8 @@
 const Course = require("../models/course");
 const Category = require("../models/category");
 const User = require("../models/user");
-const Section = require("../models/section")
-const SubSection = require("../models/subSection")
+const Section = require("../models/Section")
+const SubSection = require("../models/SubSection")
 const CourseProgress = require("../models/courseProgress")
 const { uploadImageToCLoudinary } = require("../utils/imageUploader")
 require("dotenv").config();
